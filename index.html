@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>jQuery Music Search</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <form>
+
+                  <div class="form-group">
+                        <label for="selectIpsumC">Select Sentences</label>
+                        <input type="number" class="form-control" id="selectSentences">
+                      </div>
+
+
+
+            <div class="form-group">
+                <label for="selectIpsumD">Start-With-Lorem</label>
+                <select class="form-control" id="selectStartWithLorem">
+                    <option>1</option>
+
+                </select>
+            </div>
+            <button id="submit" type="button" class="btn btn-primary">Submit</button>
+
+        </form>
+        <div id="bacon"></div>
+    </div>
+    <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="jQueryMusicSearch.js"></script>
+    <script>
+
+        $('button').on('click', function () {
+         
+
+            $.getJSON(`https://baconipsum.com/api/?type=${type}&paras=${paras}&sentences=${sentences}&start-with-lorem=${startWithLorem}`, function (bacon) {
+                bacon.forEach(function (text) {
+                    $('#bacon').append($('<div>' + '<p>' + text + '</p>' + '</div>'));
+                });
+            });
+        });
+
+
+
+    </script>
+
+
+
+
+
+
+
+</body>
+
+</html>
