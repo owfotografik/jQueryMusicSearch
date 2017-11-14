@@ -11,53 +11,81 @@
 </head>
 
 <body>
-    <div class="container">
-        <form>
+    <div class="container fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <form>
+                    <div class="form-row align-items-center">
+                        <div class="col-md-3">
+                            <label class="sr-only" for="inlineFormInput">Artist Name</label>
+                            <input type="text" class="form-control mb-2 mb-sm-0" id="term" placeholder="Artist Name">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="sr-only" for="inlineFormInput">Results</label>
+                            <input type="number" class="form-control mb-2 mb-sm-0" id="limit" value="0" placeholder="# of Results">
+                        </div>
 
-                  <div class="form-group">
-                        <label for="selectIpsumC">Select Sentences</label>
-                        <input type="number" class="form-control" id="selectSentences">
-                      </div>
+                        <div class="col-auto">
+                            <button id="button" type="button" class="btn btn-primary">Submit</button>
+                        </div>
+                    </div>
+                </form>
+                <table id="target" class="table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Title</th>
+                            <th>Artist</th>
+                            <th>Price</th>
+                            <th>Album Art</th>
+                            <th>Song Preview</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Append rows here -->
+                    </tbody>
+                </table>
 
-
-
-            <div class="form-group">
-                <label for="selectIpsumD">Start-With-Lorem</label>
-                <select class="form-control" id="selectStartWithLorem">
-                    <option>1</option>
-
-                </select>
             </div>
-            <button id="submit" type="button" class="btn btn-primary">Submit</button>
+        </div>
+        <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        <script src="jQueryMusicSearch.js"></script>
 
-        </form>
-        <div id="bacon"></div>
-    </div>
-    <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <script src="jQueryMusicSearch.js"></script>
-    <script>
+        <script>
+            var tbody = $('tbody');
+            
+            var musicSearch = new MusicSearch();
 
-        $('button').on('click', function () {
-         
-
-            $.getJSON(`https://baconipsum.com/api/?type=${type}&paras=${paras}&sentences=${sentences}&start-with-lorem=${startWithLorem}`, function (bacon) {
-                bacon.forEach(function (text) {
-                    $('#bacon').append($('<div>' + '<p>' + text + '</p>' + '</div>'));
-                });
+            $('#button').on('click', function () {
+                tbody.html('');
+                var term = $("#term").val();
+                var limit = $("#limit").val();
+                console.log(term);
+                musicSearch.getAlbum(term, limit, returnSongs);
+                
             });
-        });
+
+            function returnSongs(album) {
+                //loop through the 'people' array and show them in the html table
+                var counter = 1;
+                album.forEach(function (album) {
+                    var target = $('<tr></tr>');
+                    target.appendTo(tbody);
+                    //use jQuery to return data into an html table - same as above code but not using a template
+                    $(`<tr><td>${counter++}</td><td>${album.title}</td><td>${album.artist}</td><td>${album.price}</td><td><img src="${album.albumArt}"></td><td><audio controls><source src="${album.preview}"</audio></td></tr>`).appendTo(tbody);
+                    //albumArt.src = "album.AlbumArt";
+                });
+            }
+
+        </script>
+
+        <script>
 
 
+                //console.log(game);
 
-    </script>
-
-
-
-
-
-
-
+        </script>
 </body>
 
 </html>

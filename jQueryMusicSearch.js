@@ -1,41 +1,37 @@
 var MusicSearch = (function () {
     
-    var people = [];
+    var songs = [];
     
     function MusicSearchConstructor() {
     
-        this.peopleCount = 0;
-    
     }
     
-    StarWars.prototype.getPeople = function (done) {
-    
-        people = [];
-        getStarWarsPeople(1, function() {
-            done(people);
-        })
-    
+    MusicSearchConstructor.prototype.getAlbum = function (term, limit, callback) {
+       
+
+        var apiUrl = `https://itunes.apple.com/search?term=${term}&limit=${limit}`;
+        
+        var url = "http://bcw-getter.herokuapp.com/?url=" + encodeURIComponent(apiUrl);
+
+        $.getJSON(url, function (data) {
+ console.log(data);
+             songs = data.results.map(function(song) {
+                 return {
+                     title: song.trackName,
+                     albumArt: song.artworkUrl60,
+                     artist: song.artistName,
+                     collection: song.collectionName,
+                     price: song.collectionPrice,
+                     preview: song.previewUrl
+                 }
+             })
+             console.log(songs);
+             callback(songs);
+            
+         });
+       
     }
-       function getStarWarsPeople(page, done) {
+
     
-                $.getJSON('https://swapi.co/api/people/?format=json&page=' + page, function (data) {
-    
-                    data.results.forEach(function (person) {
-                        people.push(person);
-                       
-                    });
-                    if (data.next) {
-                        getStarWarsPeople(++page, done);
-                    }
-                    else {
-                        done();
-                    }
-                });
-            }
-    
-    
-    
-    
-    
-    return StarWars;
+    return MusicSearchConstructor;
     })();
