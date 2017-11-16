@@ -15,7 +15,7 @@ var MusicSearch = (function () {
  console.log(data);
 
              songs = data.results.map(function(song) {
-                 songs.includes("https://audio");
+               if  (song.kind.includes("song")) {
                  return {
                      title: song.trackName,
                      albumArt: song.artworkUrl60,
@@ -24,8 +24,9 @@ var MusicSearch = (function () {
                      price: song.collectionPrice,
                      preview: song.previewUrl
                  }
+                }
              })
-             console.log(songs);
+             console.log("songs:", songs);
              callback(songs);
             
          });
