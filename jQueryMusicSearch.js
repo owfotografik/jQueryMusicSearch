@@ -8,7 +8,7 @@ var MusicSearch = (function () {
 
     MusicSearchConstructor.prototype.getAlbum = function (term, limit, callback) {
         var apiUrl = `https://itunes.apple.com/search?term=${term}&limit=${limit}`;
-        var url = "http://bcw-getter.herokuapp.com/?url=" + encodeURIComponent(apiUrl);
+        var url = "https://bcw-getter.herokuapp.com/?url=" + encodeURIComponent(apiUrl);
 
         $.getJSON(url, function (data) {
 
